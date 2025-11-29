@@ -25,19 +25,19 @@ const loader = document.getElementById("formLoader");
 const closeBtn = document.getElementById("closeFloatBtn");
 const evalSelect = document.getElementById("evalSemester");
 
-/* LOAD JSON */
+/* LOAD JSON FORM LINKS */
 let googleForms = {};
 
 fetch("data/google_form_links.json")
     .then(r => r.json())
     .then(d => d.semesters.forEach(s => googleForms[s.id] = s.form_url));
 
-/* SHOW GOOGLE FORM PANEL */
+/* SHOW GOOGLE FORM */
 function openForm(id) {
     panel.style.display = "block";
     loader.style.display = "block";
-    iframe.src = googleForms[id];
 
+    iframe.src = googleForms[id];
     iframe.onload = () => {
         loader.style.display = "none";
         iframe.style.display = "block";
@@ -46,7 +46,6 @@ function openForm(id) {
     closeBtn.style.display = "block";
 }
 
-/* Dropdown action */
 evalSelect.onchange = () => {
     if (evalSelect.value) openForm(evalSelect.value);
 };
