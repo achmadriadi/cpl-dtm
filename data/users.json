@@ -1,6 +1,10 @@
 [
   {
-    "username": "dosen",
+    "username": "admin",
     "password": "10bd0c68fcf7c923c781e2e5fbd8cc052b126949eda28de48de758ad58f084cf"
+  },
+  {
+    "username": "dosen",
+    "password": "f7a5defa78131a38319d7e2ba4783fd0511c75c4b4244bbdf951f7052bb596cc"
   }
 ]
