@@ -37,6 +37,7 @@ function openForm(id) {
     panel.style.display = "block";
     loader.style.display = "block";
     iframe.src = googleForms[id];
+
     iframe.onload = () => {
         loader.style.display = "none";
         iframe.style.display = "block";
@@ -45,6 +46,7 @@ function openForm(id) {
     closeBtn.style.display = "block";
 }
 
+/* Dropdown action */
 evalSelect.onchange = () => {
     if (evalSelect.value) openForm(evalSelect.value);
 };
@@ -66,6 +68,7 @@ function updateImgMhs() {
     const p = document.getElementById("prodiMhs").value;
     const s = document.getElementById("semesterMhs").value;
     const img = document.getElementById("imgMhs");
+
     if (p && s) {
         img.src = `assets/img/cpl_per_mhs/${p}/${s}/grafik.png`;
         img.classList.remove("d-none");
@@ -79,6 +82,7 @@ function updateImgProdi() {
     const p = document.getElementById("prodiProdi").value;
     const a = document.getElementById("angkatanProdi").value;
     const img = document.getElementById("imgProdi");
+
     if (p && a) {
         img.src = `assets/img/cpl_prodi/${p}/${a}/grafik.png`;
         img.classList.remove("d-none");
