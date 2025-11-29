@@ -1,0 +1,11 @@
+
+body {
+  background: linear-gradient(135deg, #f6db00 0%, #ffffff 100%);
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+.card-custom {
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+.section-title { font-weight: 600; margin-top: 12px; }

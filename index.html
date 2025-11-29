@@ -1,130 +1,27 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Monev-ELO</title>
-
+<title>APPS CPL DTM FTUI (versi 1.0)</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<style>
-    body {
-        background: linear-gradient(135deg, #c7dbff, #f8fbff);
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Segoe UI';
-    }
-    .login-card {
-        width: 380px;
-        background: white;
-        padding: 2rem;
-        border-radius: 15px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        animation: fadeIn .5s ease;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .error-box {
-        display: none;
-        background: #ffebee;
-        border-left: 5px solid #e53935;
-        padding: 10px 12px;
-        border-radius: 5px;
-        color: #b71c1c;
-        font-size: 0.9rem;
-        margin-bottom: 15px;
-    }
-</style>
-
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/login.js" defer></script>
 </head>
-<body>
-
-<div class="login-card">
-    <h3 class="text-center mb-3 text-primary fw-bold">Login Monev-ELO</h3>
-
-    <div id="errorBox" class="error-box"></div>
-
-    <div class="mb-3">
-        <label class="form-label fw-semibold">Username</label>
-        <input type="text" id="username" class="form-control">
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label fw-semibold">Password</label>
-        <input type="password" id="password" class="form-control">
-    </div>
-
-    <button class="btn btn-primary w-100" onclick="login()">Login</button>
-
-</div>
-
-<script>
-    async function sha256(message) {
-        const msgBuffer = new TextEncoder().encode(message);
-        const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-    }
-
-    function showError(message) {
-        const box = document.getElementById("errorBox");
-        box.innerText = message;
-        box.style.display = "block";
-    }
-
-    async function login() {
-        const user = document.getElementById("username").value.trim();
-        const pass = document.getElementById("password").value;
-
-        // VALIDASI: user & password kosong
-        if (!user && !pass) {
-            showError("Silakan masukkan username dan password.");
-            document.getElementById("username").focus();
-            return;
-        }
-        if (!user) {
-            showError("Username belum diisi.");
-            document.getElementById("username").focus();
-            return;
-        }
-        if (!pass) {
-            showError("Password belum diisi.");
-            document.getElementById("password").focus();
-            return;
-        }
-
-        // hash password
-        const hashedPass = await sha256(pass);
-
-        // baca file users.json
-        let data;
-        try {
-            const response = await fetch("users.json");
-            data = await response.json();
-        } catch (err) {
-            showError("Gagal membaca data pengguna.");
-            return;
-        }
-
-        // cek user & password
-        const validUser = data.users.find(
-            u => u.username === user && u.password === hashedPass
-        );
-
-        if (validUser) {
-            localStorage.setItem("loggedIn", "true");
-            window.location.href = "main.html";
-        } else {
-            showError("Username atau password salah!");
-            document.getElementById("password").value = "";
-            document.getElementById("password").focus();
-        }
-    }
-</script>
-
+<body class="d-flex justify-content-center align-items-center vh-100">
+  <div class="card card-custom p-4" style="width:360px;">
+    <h4 class="text-center mb-3">APPS CPL DTM FTUI<br><small>Versi 1.0</small></h4>
+    <div id="errorMsg" class="alert alert-danger d-none"></div>
+    <form id="loginForm" onsubmit="return false;">
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input id="username" class="form-control" autocomplete="username">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input id="password" type="password" class="form-control" autocomplete="current-password">
+      </div>
+      <button id="loginBtn" class="btn btn-dark w-100">Login</button>
+    </form>
+  </div>
 </body>
 </html>

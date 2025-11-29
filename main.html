@@ -1,149 +1,85 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monev-ELO/CPL Mahasiswa</title>
-
-    <!-- CEK LOGIN -->
-    <script>
-        if (localStorage.getItem("loggedIn") !== "true") {
-            window.location.href = "login.html";
-        }
-    </script>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        body {
-            background: linear-gradient(135deg, #e9f2ff, #f8fbff);
-            padding: 2rem 0;
-            font-family: 'Segoe UI';
-        }
-
-        .main-container {
-            background-color: white;
-            border-radius: 15px;
-            padding: 2.5rem;
-            max-width: 1000px;
-            margin: 0 auto;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-            animation: fadeIn 0.6s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .header-title {
-            color: #0d6efd;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .header-subtitle {
-            text-align: center;
-            color: #6c757d;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .form-container {
-            border: 1px solid #e1e5ea;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .iframe-container {
-            width: 100%;
-            height: 650px;
-            border: none;
-        }
-
-        .placeholder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 650px;
-            background: #f1f5ff;
-            color: #6c7a91;
-            font-size: 1.2rem;
-            font-style: italic;
-        }
-
-        .loading {
-            height: 650px;
-            background: linear-gradient(90deg, #f1f1f1 25%, #ececec 37%, #f1f1f1 63%);
-            background-size: 400% 100%;
-            animation: shimmer 1.4s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -400px 0; }
-            100% { background-position: 400px 0; }
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Aplikasi Monitoring CPL</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/main.js" defer></script>
 </head>
+<body class="p-4">
+<nav class="d-flex justify-content-between align-items-center mb-4">
+  <div class="d-flex align-items-center">
+    <img src="assets/img/cpl_per_mhs/S1_Teknik_Perkapalan/Gasal_2024_2025/grafik.png" alt="logo" style="height:48px; width:72px; object-fit:cover; margin-right:12px;">
+    <div>
+      <div style="font-weight:700;">Aplikasi Monitoring dan Evaluasi Pencapaian CPL DTM FTUI</div>
+      <small id="userLabel" class="text-muted"></small>
+    </div>
+  </div>
+  <button id="logoutBtn" class="btn btn-outline-danger">Logout</button>
+</nav>
 
-<body>
-    <div class="container">
-        <div class="main-container">
-
-            <!-- LOGOUT BUTTON -->
-            <div class="d-flex justify-content-end">
-                <button onclick="logout()" class="btn btn-danger btn-sm mb-3">Logout</button>
-            </div>
-
-            <!-- TITLE -->
-            <h1 class="header-title">Monitoring dan Evaluasi ELO/CPL Mahasiswa</h1>
-            <p class="header-subtitle">
-                Pilih semester untuk mengisi form evaluasi pembelajaran
-            </p>
-
-            <!-- SELECT SEMESTER -->
-            <div class="mb-4">
-                <label for="semesterSelect" class="form-label fw-semibold">Pilih Semester:</label>
-                <select class="form-select shadow-sm" id="semesterSelect">
-                    <option value="" selected disabled>-- Pilih Semester --</option>
-                    <option value="ganjil2022">Semester Ganjil 2022/2023</option>
-                    <option value="genap2022">Semester Genap 2022/2023</option>
-                    <option value="ganjil2023">Semester Ganjil 2023/2024</option>
-                    <option value="genap2023">Semester Genap 2023/2024</option>
-                    <option value="ganjil2024">Semester Ganjil 2024/2025</option>
-                </select>
-            </div>
-
-            <!-- FORM AREA -->
-            <div class="form-container">
-                <div id="formPlaceholder" class="placeholder">
-                    Silakan pilih semester untuk menampilkan form evaluasi
-                </div>
-                <div id="loadingSkeleton" class="loading" style="display:none;"></div>
-                <iframe id="formFrame" class="iframe-container" style="display:none;"></iframe>
-            </div>
-
-        </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h5 class="section-title">Pencapaian CPL per Mahasiswa</h5>
+      <label>Program Studi</label>
+      <select id="prodiMhs" class="form-select mb-2">
+        <option value="">-- pilih Program Studi --</option>
+        <option value="S1_Teknik_Perkapalan">S1 Teknik Perkapalan</option>
+        <option value="S1_Teknik_Mesin">S1 Teknik Mesin</option>
+      </select>
+      <label>Semester</label>
+      <select id="semesterMhs" class="form-select mb-2">
+        <option value="">-- pilih Semester --</option>
+        <option value="Gasal_2024_2025">Gasal 2024/2025</option>
+        <option value="Genap_2024_2025">Genap 2024/2025</option>
+        <option value="Gasal_2025_2026">Gasal 2025/2026</option>
+      </select>
+      <div class="mt-3">
+        <img id="imgMhs" src="" class="img-fluid d-none border" alt="grafik per mahasiswa">
+      </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="col-md-6">
+      <h5 class="section-title">Pencapaian CPL Prodi</h5>
+      <label>Program Studi</label>
+      <select id="prodiProdi" class="form-select mb-2">
+        <option value="">-- pilih Program Studi --</option>
+        <option value="S1_Teknik_Perkapalan">S1 Teknik Perkapalan</option>
+        <option value="S1_Teknik_Mesin">S1 Teknik Mesin</option>
+      </select>
+      <label>Angkatan Masuk</label>
+      <select id="angkatanProdi" class="form-select mb-2">
+        <option value="">-- pilih Angkatan --</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+      </select>
+      <div class="mt-3">
+        <img id="imgProdi" src="" class="img-fluid d-none border" alt="grafik prodi">
+      </div>
+    </div>
+  </div>
 
-    <script>
-        function logout() {
-            localStorage.removeItem("loggedIn");
-            window.location.href = "login.html";
-        }
+  <hr class="my-4">
 
-        document.getElementById('semesterSelect').addEventListener('change', function() {
-            const selectedSemester = this.value;
-            const formFrame = document.getElementById('formFrame');
-            const placeholder = document.getElementById('formPlaceholder');
-            const loading = document.getElementById('loadingSkeleton');
+  <h5 class="section-title">Evaluasi Perkuliahan oleh Dosen Pengampu untuk Portofolio MK</h5>
+  <label>Pilih Semester</label>
+  <select id="evalSemester" class="form-select w-50 mb-2">
+    <option value="">-- pilih Semester --</option>
+    <option value="Gasal_2024_2025">Gasal 2024/2025</option>
+    <option value="Genap_2024_2025">Genap 2024/2025</option>
+    <option value="Gasal_2025_2026">Gasal 2025/2026</option>
+  </select>
+  <div id="googleFormBox" class="mt-3 d-none">
+    <iframe id="googleFormFrame" width="100%" height="600" style="border:0;"></iframe>
+  </div>
 
-            if (selectedSemester) {
-                const formUrls = {
-                    'ganjil2022': 'https://docs.google.com/form
+</div>
+
+</body>
+</html>
