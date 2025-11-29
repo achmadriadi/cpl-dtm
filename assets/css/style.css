@@ -1,68 +1,14 @@
-/* ===========================================
-   GLOBAL STYLE
-=========================================== */
-body {
-  background: linear-gradient(135deg, #f6db00 0%, #ffffff 100%);
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-}
-
-/* ===========================================
-   STICKY HEADER
-=========================================== */
-.app-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: #ffffff;
-  z-index: 1100;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-}
-
-/* ===========================================
-   LOGO STYLING
-=========================================== */
-.logo-box {
-  background: white;
-  padding: 8px 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(0,0,0,0.15);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
-  display: flex;
-  align-items: center;
-}
-
-.logo-box img {
-  height: 58px;
-  width: auto;
-  display: block;
-}
-
-/* ===========================================
-   APP TITLE TEXT
-=========================================== */
-.app-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #333;
-}
-
-/* ===========================================
-   SECTION TITLE
-=========================================== */
-.section-title { 
-  font-weight: 600; 
-  margin-top: 12px;
-}
-
-/* ===========================================
-   CONTENT SPACING UNDER STICKY HEADER
-=========================================== */
-.container {
-  padding-bottom: 40px;
-}
-
-/* ===========================================
-   MODAL BACKDROP BLUR
-=========================================== */
-.modal-backdrop.show {
+/* FINAL STYLE */
+body {background: linear-gradient(135deg,#f6db00,#ffffff);min-height:100vh;font-family:Arial;}
+.app-header {position:fixed;top:0;width:100%;background:#fff;z-index:1100;border-bottom:1px solid rgba(0,0,0,0.1);}
+.logo-box {background:white;padding:8px 12px;border-radius:12px;border:1px solid rgba(0,0,0,0.15);box-shadow:0 3px 10px rgba(0,0,0,0.25);}
+.logo-box img {height:58px;width:auto;display:block;}
+.app-title {font-size:18px;font-weight:700;color:#333;}
+.section-title {font-weight:600;margin-top:12px;}
+.container {padding-bottom:40px;}
+.modal-backdrop.show {backdrop-filter: blur(6px);}
+.modal-content {border-radius:0 !important;}
+.loader-container {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:1050;}
+.loader {border:6px solid #f3f3f3;border-top:6px solid #f6db00;border-radius:50%;width:55px;height:55px;animation:spin .9s linear infinite;margin:auto;}
+@keyframes spin {0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+.modal.show {backdrop-filter: blur(6px);}
