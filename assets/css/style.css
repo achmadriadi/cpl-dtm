@@ -1,71 +1,118 @@
-/* BACKGROUND FIX */
+/* ===== GLOBAL ===== */
 body {
-  background: linear-gradient(135deg,#f6db00 0%, #ffffff 100%) !important;
-  min-height: 100vh;
+  background: linear-gradient(135deg, #fffbe6, #f6d900);
+  background-attachment: fixed;
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
-  padding: 0;
 }
 
-/* HEADER */
-.app-header {
+/* ===== HEADER ===== */
+.glass-header {
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.8);
   position: fixed;
   top: 0;
   width: 100%;
-  background: #fff;
   z-index: 1100;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-/* FOOTER */
-.app-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 1090;
-  background: #222;
-  color: #fff;
-  border-top: 3px solid #f6db00;
+.logo-box img {
+  height: 60px;
 }
 
-/* FIX MODAL HEIGHT + POSITION */
-.modal-dialog.google-form-modal-fix {
+.app-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ===== MODERN CARD ===== */
+.modern-card {
+  background: #ffffffcc;
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* ===== IMAGES ===== */
+.modern-image {
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.image-box {
+  text-align: center;
+}
+
+/* ===== MODAL GOOGLE FORM ===== */
+.google-form-modal-fix {
   position: fixed;
   top: 130px;
   left: 0;
   right: 0;
   height: calc(100vh - 130px - 60px);
+  max-width: 100%;
   margin: 0;
   padding: 0;
-  max-width: 100%;
-  z-index: 1055;
 }
 
-.modal-dialog.google-form-modal-fix .modal-content {
-  height: 100%;
-  border-radius: 0;
-  border: none;
-}
-
-/* IFRAME FULL */
-.modal-dialog.google-form-modal-fix iframe {
+#googleFormFrame {
   width: 100%;
   height: 100%;
+  border: none;
+  display: none;
 }
 
-/* CLOSE BUTTON ALWAYS ABOVE */
+.loader-container {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 6px solid #eee;
+  border-top: 6px solid #f6d900;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 16px;
+  margin-top: 12px;
+}
+
+/* ===== FLOATING CLOSE BUTTON ===== */
 .close-float-btn {
   position: fixed;
   top: 135px;
-  right: 20px;
-  z-index: 999999;
-  background: rgba(0,0,0,0.75);
+  right: 22px;
+  z-index: 99999;
+  background: #000000aa;
   color: white;
   border: none;
   border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  line-height: 40px;
+  width: 45px;
+  height: 45px;
   font-size: 22px;
-  font-weight: bold;
+  line-height: 45px;
+  text-align: center;
   cursor: pointer;
+}
+
+/* ===== FOOTER ===== */
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #222;
+  color: white;
 }
