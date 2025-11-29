@@ -1,4 +1,6 @@
-/* LOGIN GUARD */
+/* ==========================================================
+   LOGIN GUARD
+========================================================== */
 if (sessionStorage.getItem("loggedIn") !== "true") {
     window.location = "index.html";
 } else {
@@ -6,36 +8,49 @@ if (sessionStorage.getItem("loggedIn") !== "true") {
         "Logged in as " + sessionStorage.getItem("username");
 }
 
-/* FIX HEADER HEIGHT */
+/* ==========================================================
+   COMPUTE HEADER HEIGHT (AUTOMATIC)
+========================================================== */
 window.addEventListener("load", function () {
     const hh = document.getElementById("appHeader").offsetHeight;
     document.documentElement.style.setProperty("--header-height", hh + "px");
 });
 
-/* LOGOUT */
+/* ==========================================================
+   LOGOUT
+========================================================== */
 document.getElementById("logoutBtn").onclick = () => {
     sessionStorage.clear();
     window.location = "index.html";
 };
 
-/* ELEMENTS */
+/* ==========================================================
+   ELEMENTS
+========================================================== */
 const panel = document.getElementById("googleFormPanel");
 const iframe = document.getElementById("googleFormFrame");
 const loader = document.getElementById("formLoader");
 const closeBtn = document.getElementById("closeFloatBtn");
 const evalSelect = document.getElementById("evalSemester");
 
-/* LOAD JSON FORM LINKS */
+/* ==========================================================
+   LOAD GOOGLE FORM LINKS (JSON)
+========================================================== */
 let googleForms = {};
 
 fetch("data/google_form_links.json")
     .then(r => r.json())
     .then(d => d.semesters.forEach(s => googleForms[s.id] = s.form_url));
 
-/* SHOW GOOGLE FORM */
+/* ==========================================================
+   OPEN GOOGLE FORM
+========================================================== */
 function openForm(id) {
     panel.style.display = "block";
     loader.style.display = "block";
+
+    /* Lock page scroll */
+    document.body.classList.add("no-scroll");
 
     iframe.src = googleForms[id];
     iframe.onload = () => {
@@ -50,7 +65,9 @@ evalSelect.onchange = () => {
     if (evalSelect.value) openForm(evalSelect.value);
 };
 
-/* CLOSE FORM */
+/* ==========================================================
+   CLOSE GOOGLE FORM
+========================================================== */
 function closeForm() {
     panel.style.display = "none";
     iframe.src = "";
@@ -58,11 +75,16 @@ function closeForm() {
     loader.style.display = "none";
     closeBtn.style.display = "none";
     evalSelect.value = "";
+
+    /* Unlock page scroll */
+    document.body.classList.remove("no-scroll");
 }
 
 closeBtn.onclick = closeForm;
 
-/* IMAGE LOADERS */
+/* ==========================================================
+   LOAD IMAGES — CARD 1 & CARD 2
+========================================================== */
 function updateImgMhs() {
     const p = document.getElementById("prodiMhs").value;
     const s = document.getElementById("semesterMhs").value;
