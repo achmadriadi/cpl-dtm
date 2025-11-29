@@ -1,14 +1,22 @@
-/* ===== HEADER ===== */
+/* BACKGROUND FIX */
+body {
+  background: linear-gradient(135deg,#f6db00 0%, #ffffff 100%) !important;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* HEADER */
 .app-header {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1100;
   background: #fff;
+  z-index: 1100;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-/* ===== FOOTER ===== */
+/* FOOTER */
 .app-footer {
   position: fixed;
   bottom: 0;
@@ -19,13 +27,13 @@
   border-top: 3px solid #f6db00;
 }
 
-/* ===== MODAL FIX ===== */
+/* FIX MODAL HEIGHT + POSITION */
 .modal-dialog.google-form-modal-fix {
   position: fixed;
-  top: 130px; /* header height */
+  top: 130px;
   left: 0;
   right: 0;
-  height: calc(100vh - 130px - 60px); /* header + footer */
+  height: calc(100vh - 130px - 60px);
   margin: 0;
   padding: 0;
   max-width: 100%;
@@ -38,17 +46,18 @@
   border: none;
 }
 
+/* IFRAME FULL */
 .modal-dialog.google-form-modal-fix iframe {
   width: 100%;
   height: 100%;
 }
 
-/* ===== CLOSE BUTTON FIX ===== */
+/* CLOSE BUTTON ALWAYS ABOVE */
 .close-float-btn {
   position: fixed;
-  top: 135px; /* just under header */
+  top: 135px;
   right: 20px;
-  z-index: 999999; /* ABOVE ALL */
+  z-index: 999999;
   background: rgba(0,0,0,0.75);
   color: white;
   border: none;
@@ -58,6 +67,5 @@
   line-height: 40px;
   font-size: 22px;
   font-weight: bold;
-  text-align: center;
   cursor: pointer;
 }
