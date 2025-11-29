@@ -1,4 +1,12 @@
 /* =========================================
+   GLOBAL VARIABLES
+========================================= */
+:root {
+  --header-height: 120px;    /* dynamic override applied from JS */
+  --footer-height: 60px;
+}
+
+/* =========================================
    GLOBAL
 ========================================= */
 body {
@@ -28,9 +36,7 @@ body {
 }
 
 @media (max-width: 576px) {
-  .logo-box img {
-    width: 150px;
-  }
+  .logo-box img { width: 150px; }
 }
 
 .app-title {
@@ -55,7 +61,7 @@ body {
 }
 
 /* =========================================
-   IMAGE STYLING
+   IMAGE
 ========================================= */
 .modern-image {
   border-radius: 12px;
@@ -65,26 +71,38 @@ body {
 }
 
 /* =========================================
-   MODAL GOOGLE FORM
+   MODAL — FULL HEIGHT
 ========================================= */
 .google-form-modal-fix {
-  position: fixed;
-  top: 130px;
+  position: fixed !important;
+  top: var(--header-height);
   left: 0;
   right: 0;
-  height: calc(100vh - 130px - 60px);
+  height: calc(100vh - var(--header-height) - var(--footer-height));
   margin: 0;
   padding: 0;
   max-width: 100%;
+  z-index: 1080;
+  overflow: hidden;
+}
+
+.google-form-modal-fix .modal-content {
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  background: white;
 }
 
 #googleFormFrame {
   width: 100%;
-  height: 100%;
+  height: 100% !important;
   border: none;
   display: none;
 }
 
+/* =========================================
+   LOADER
+========================================= */
 .loader-container {
   position: absolute;
   top: 42%;
@@ -102,22 +120,14 @@ body {
   animation: spin .9s linear infinite;
 }
 
-@keyframes spin {
-  100% { transform: rotate(360deg); }
-}
-
-.loading-text {
-  font-size: 15px;
-  color: #333;
-  margin-top: 10px;
-}
+@keyframes spin { 100% { transform: rotate(360deg); } }
 
 /* =========================================
    FLOATING CLOSE BUTTON
 ========================================= */
 .close-float-btn {
   position: fixed;
-  top: 135px;
+  top: calc(var(--header-height) + 5px);
   right: 22px;
   z-index: 99999;
   background: rgba(0,0,0,0.75);
@@ -140,6 +150,7 @@ body {
   position: fixed;
   bottom: 0;
   width: 100%;
+  height: var(--footer-height);
   background: #222;
   color: white;
   z-index: 1050;

@@ -6,20 +6,24 @@ if (sessionStorage.getItem('loggedIn') !== 'true') {
         "Logged in as " + sessionStorage.getItem('username');
 }
 
+/* ========== SET DYNAMIC HEADER HEIGHT ========== */
+document.documentElement.style.setProperty(
+    '--header-height',
+    document.querySelector('.app-header').offsetHeight + "px"
+);
+
 /* ========== LOGOUT ========== */
 document.getElementById("logoutBtn").onclick = () => {
     sessionStorage.clear();
     window.location = "index.html";
 };
 
-/* ========== LOAD GOOGLE FORM JSON ========== */
+/* ========== LOAD GOOGLE FORM LINKS ========== */
 let googleForms = {};
 
 fetch("data/google_form_links.json")
     .then(r => r.json())
-    .then(d => {
-        d.semesters.forEach(s => googleForms[s.id] = s.form_url);
-    });
+    .then(d => d.semesters.forEach(s => googleForms[s.id] = s.form_url));
 
 /* ========== ELEMENTS ========== */
 const modalEl = document.getElementById("googleFormModal");
@@ -28,7 +32,7 @@ const loader = document.getElementById("formLoader");
 const closeBtn = document.getElementById("closeFloatBtn");
 const evalSelect = document.getElementById("evalSemester");
 
-/* ========== OPEN FORM ========== */
+/* ========== OPEN GOOGLE FORM ========== */
 function openForm(id) {
     iframe.style.display = "none";
     loader.style.display = "block";
@@ -50,9 +54,10 @@ evalSelect.onchange = () => {
     if (evalSelect.value) openForm(evalSelect.value);
 };
 
-/* ========== CLOSE FORM ========== */
+/* ========== CLOSE GOOGLE FORM ========== */
 function closeForm() {
-    try { modalEl._instance.hide(); } catch {};
+    try { modalEl._instance.hide(); } catch {}
+
     iframe.src = "";
     iframe.style.display = "none";
     loader.style.display = "none";
@@ -63,7 +68,7 @@ function closeForm() {
 closeBtn.onclick = closeForm;
 modalEl.addEventListener("hidden.bs.modal", closeForm);
 
-/* ========== IMAGE DROP-DOWN UPDATE ========== */
+/* ========== IMAGE UPDATE DROPDOWNS ========== */
 function updateImgMhs() {
     const p = document.getElementById("prodiMhs").value;
     const s = document.getElementById("semesterMhs").value;
