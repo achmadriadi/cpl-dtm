@@ -1,31 +1,96 @@
-/* FINAL STYLE */
-body {background: linear-gradient(135deg,#f6db00,#ffffff);min-height:100vh;font-family:Arial;}
+/* FINAL STYLE (include modal positioning between header and footer) */
+body {background: linear-gradient(135deg,#f6db00,#ffffff);min-height:100vh;font-family:Arial;margin:0;padding:0;}
 .app-header {position:fixed;top:0;width:100%;background:#fff;z-index:1100;border-bottom:1px solid rgba(0,0,0,0.1);}
 .logo-box {background:white;padding:8px 12px;border-radius:12px;border:1px solid rgba(0,0,0,0.15);box-shadow:0 3px 10px rgba(0,0,0,0.25);}
 .logo-box img {height:58px;width:auto;display:block;}
 .app-title {font-size:18px;font-weight:700;color:#333;}
 .section-title {font-weight:600;margin-top:12px;}
 .container {padding-bottom:40px;}
-.modal-backdrop.show {backdrop-filter: blur(6px);}
-.modal-content {border-radius:0 !important;}
-.loader-container {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:1050;}
-.loader {border:6px solid #f3f3f3;border-top:6px solid #f6db00;border-radius:50%;width:55px;height:55px;animation:spin .9s linear infinite;margin:auto;}
-@keyframes spin {0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
-.modal.show {backdrop-filter: blur(6px);}
 
-/* Shift modal downward under header */
-.modal-dialog.google-form-modal-fix {
-    margin: 0;
-    height: calc(100vh - 70px); /* 70px = tinggi header */
-    padding-top: 70px;
+/* footer */
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #222;       /* dark block color */
+  color: #fff;
+  z-index: 1050;
+  border-top: 3px solid #f6db00; /* accent line */
 }
 
+/* modal backdrop blur (still covers page behind modal) */
+.modal-backdrop.show {
+  backdrop-filter: blur(6px);
+}
+
+/* modal adjustments: place modal-dialog between header and footer */
+.modal-dialog.google-form-modal-fix {
+    position: fixed;
+    top: 70px; /* header height - adjust if your header height different */
+    left: 0;
+    right: 0;
+    height: calc(100vh - 70px - 60px); /* 70px header + 60px footer */
+    margin: 0;
+    max-width: 100%;
+    padding: 0;
+}
+
+/* modal-content fill area */
 .modal-dialog.google-form-modal-fix .modal-content {
     height: 100%;
-    border: none;
     border-radius: 0;
+    border: none;
+    overflow: hidden;
 }
 
+/* iframe fits in modal body */
+.modal-dialog.google-form-modal-fix .modal-body,
 .modal-dialog.google-form-modal-fix iframe {
-    height: calc(100vh - 120px) !important; /* 70px header + 50px modal header */
+    height: 100% !important;
+}
+
+/* loader centered inside modal-content */
+.loader-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1200;
+    background: rgba(255,255,255,0.0);
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.loader {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #f6db00;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    animation: spin .9s linear infinite;
+    margin: 0 auto;
+}
+@keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
+
+/* ensure modal backdrop doesn't cover footer visually (backdrop still behind modal content) */
+.modal-backdrop {
+  z-index: 1040; /* behind footer z-index 1050 */
+}
+
+/* modal itself should be above backdrop, but below the header's z-index (header uses 1100) */
+.modal-dialog.google-form-modal-fix {
+  z-index: 1055;
+}
+
+/* make close button style consistent */
+.modal-header .btn-warning {
+  font-weight: 600;
+}
+
+/* responsive tweak (smaller screens) */
+@media (max-width: 576px) {
+  .modal-dialog.google-form-modal-fix { top: 64px; height: calc(100vh - 64px - 60px); }
+  .logo-box img { height: 48px; }
 }
