@@ -5,29 +5,24 @@ if (sessionStorage.getItem('loggedIn') !== 'true') {
     window.location = 'index.html';
 } else {
     const label = document.getElementById('userLabel');
-    if (label) {
-        label.textContent = 'Logged in as ' + (sessionStorage.getItem('username') || '');
-    }
+    if (label) label.textContent = 'Logged in as ' + sessionStorage.getItem('username');
 }
 
 /* =========================================================
    LOGOUT
 ========================================================= */
-const logoutBtn = document.getElementById('logoutBtn');
-if (logoutBtn) {
-    logoutBtn.onclick = () => {
-        sessionStorage.clear();
-        window.location = 'index.html';
-    };
-}
+document.getElementById('logoutBtn').onclick = () => {
+    sessionStorage.clear();
+    window.location = 'index.html';
+};
 
 /* =========================================================
-   IMAGE HANDLER
+   IMAGE HANDLERS
 ========================================================= */
 function updateImgMhs() {
-    const p = document.getElementById('prodiMhs').value;
-    const s = document.getElementById('semesterMhs').value;
-    const img = document.getElementById('imgMhs');
+    let p = document.getElementById('prodiMhs').value;
+    let s = document.getElementById('semesterMhs').value;
+    let img = document.getElementById('imgMhs');
 
     if (p && s) {
         img.src = `assets/img/cpl_per_mhs/${p}/${s}/grafik.png`;
@@ -39,9 +34,9 @@ function updateImgMhs() {
 }
 
 function updateImgProdi() {
-    const p = document.getElementById('prodiProdi').value;
-    const a = document.getElementById('angkatanProdi').value;
-    const img = document.getElementById('imgProdi');
+    let p = document.getElementById('prodiProdi').value;
+    let a = document.getElementById('angkatanProdi').value;
+    let img = document.getElementById('imgProdi');
 
     if (p && a) {
         img.src = `assets/img/cpl_prodi/${p}/${a}/grafik.png`;
@@ -52,29 +47,30 @@ function updateImgProdi() {
     }
 }
 
-document.getElementById('prodiMhs').addEventListener('change', updateImgMhs);
-document.getElementById('semesterMhs').addEventListener('change', updateImgMhs);
+document.getElementById('prodiMhs').onchange = updateImgMhs;
+document.getElementById('semesterMhs').onchange = updateImgMhs;
 
-document.getElementById('prodiProdi').addEventListener('change', updateImgProdi);
-document.getElementById('angkatanProdi').addEventListener('change', updateImgProdi);
+document.getElementById('prodiProdi').onchange = updateImgProdi;
+document.getElementById('angkatanProdi').onchange = updateImgProdi;
 
 /* =========================================================
    LOAD GOOGLE FORM LINKS
 ========================================================= */
+let googleForms = {};
+
 async function loadGoogleForms() {
     try {
-        const r = await fetch('data/google_form_links.json');
-        const d = await r.json();
-        window.googleForms = {};
-
-        (d.semesters || []).forEach(s => {
-            window.googleForms[s.id] = s.form_url;
+        const res = await fetch('data/google_form_links.json');
+        const data = await res.json();
+        
+        data.semesters.forEach(s => {
+            googleForms[s.id] = s.form_url;
         });
     } catch (e) {
-        console.error("JSON Load Error:", e);
-        window.googleForms = {};
+        console.error("Error loading form JSON:", e);
     }
 }
+
 loadGoogleForms();
 
 /* =========================================================
@@ -84,18 +80,19 @@ const modalEl = document.getElementById('googleFormModal');
 const iframe = document.getElementById('googleFormFrame');
 const loader = document.getElementById('formLoader');
 const evalSelect = document.getElementById('evalSemester');
+const closeBtn = document.getElementById('closeFloatBtn');
 
 function openForm(id) {
-    if (!id || !window.googleForms[id]) return;
-
     iframe.style.display = 'none';
     loader.style.display = 'block';
-    iframe.src = window.googleForms[id];
 
-    const modalInstance = new bootstrap.Modal(modalEl, { backdrop: true });
+    iframe.src = googleForms[id];
+
+    const modalInstance = new bootstrap.Modal(modalEl);
     modalInstance.show();
+    modalEl._instance = modalInstance;
 
-    modalEl._bs_instance = modalInstance;
+    closeBtn.style.display = "block";
 
     iframe.onload = () => {
         loader.style.display = 'none';
@@ -103,40 +100,26 @@ function openForm(id) {
     };
 }
 
-evalSelect.addEventListener('change', function () {
-    const id = this.value;
-    if (!id) return;
-    openForm(id);
-});
+evalSelect.onchange = function () {
+    if (this.value) openForm(this.value);
+};
 
 /* =========================================================
-   FLOATING CLOSE BUTTON (X)
+   CLOSE MODAL
 ========================================================= */
-const closeFloatBtn = document.getElementById('closeFloatBtn');
+function closeForm() {
 
-function closeFormModal() {
     try {
-        if (modalEl._bs_instance) modalEl._bs_instance.hide();
-        else {
-            const instance = bootstrap.Modal.getInstance(modalEl);
-            if (instance) instance.hide();
-        }
-    } catch (e) { }
+        modalEl._instance.hide();
+    } catch (e) {}
 
-    evalSelect.value = '';
-    iframe.src = '';
-    iframe.style.display = 'none';
-    loader.style.display = 'none';
+    evalSelect.value = "";
+    iframe.src = "";
+    iframe.style.display = "none";
+    loader.style.display = "none";
+    closeBtn.style.display = "none";
 }
 
-closeFloatBtn.addEventListener('click', closeFormModal);
+closeBtn.onclick = closeForm;
 
-/* =========================================================
-   RESET WHEN CLOSED (ESC/BACKDROP)
-========================================================= */
-modalEl.addEventListener('hidden.bs.modal', function () {
-    evalSelect.value = '';
-    iframe.src = '';
-    iframe.style.display = 'none';
-    loader.style.display = 'none';
-});
+modalEl.addEventListener('hidden.bs.modal', closeForm);
