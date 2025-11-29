@@ -14,7 +14,7 @@
 <body>
 
 <!-- ================= HEADER ================= -->
-<header class="app-header glass-header shadow-sm">
+<header id="appHeader" class="app-header glass-header shadow-sm">
     <div class="container-fluid d-flex justify-content-between align-items-center py-2">
 
         <div class="d-flex align-items-center header-left">
@@ -32,14 +32,14 @@
     </div>
 </header>
 
-<!-- CLOSE BUTTON -->
-<button id="closeFloatBtn" class="close-float-btn" style="display:none;">✖</button>
+<!-- FLOAT CLOSE BUTTON -->
+<button id="closeFloatBtn" class="close-float-btn">✖</button>
 
 <!-- ================= CONTENT ================= -->
-<div class="container" style="padding-top: calc(var(--header-height) + 20px); padding-bottom: 100px;">
+<div id="mainContent" class="container">
 
     <!-- Row 1 -->
-    <div class="row g-4">
+    <div class="row g-4 pt-3">
 
         <!-- CARD 1 -->
         <div class="col-md-6">
@@ -112,28 +112,19 @@
 
 </div>
 
-<!-- ===== MODAL GOOGLE FORM ===== -->
-<div class="modal fade" id="googleFormModal" tabindex="-1">
-  <div class="modal-dialog google-form-modal-fix">
-    <div class="modal-content">
-
-      <div id="formLoader" class="loader-container">
+<!-- ===== GOOGLE FORM PANEL (NO BOOTSTRAP MODAL) ===== -->
+<div id="googleFormPanel">
+    <div id="formLoader">
         <div class="loader"></div>
         <p class="loading-text">Loading Form…</p>
-      </div>
-
-      <iframe id="googleFormFrame"></iframe>
-
     </div>
-  </div>
+    <iframe id="googleFormFrame"></iframe>
 </div>
 
 <!-- FOOTER -->
-<footer class="app-footer">
+<footer id="footerBar" class="app-footer">
   <div class="text-center py-2 text-white">DTM FTUI © 2026</div>
 </footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

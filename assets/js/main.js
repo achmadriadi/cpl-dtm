@@ -1,63 +1,57 @@
-/* ========== LOGIN GUARD ========== */
-if (sessionStorage.getItem('loggedIn') !== 'true') {
-    window.location = 'index.html';
+/* LOGIN GUARD */
+if (sessionStorage.getItem("loggedIn") !== "true") {
+    window.location = "index.html";
 } else {
-    document.getElementById('userLabel').textContent =
-        "Logged in as " + sessionStorage.getItem('username');
+    document.getElementById("userLabel").textContent =
+        "Logged in as " + sessionStorage.getItem("username");
 }
 
-/* ========== SET DYNAMIC HEADER HEIGHT ========== */
-document.documentElement.style.setProperty(
-    '--header-height',
-    document.querySelector('.app-header').offsetHeight + "px"
-);
+/* FIX HEADER HEIGHT */
+window.addEventListener("load", function () {
+    const hh = document.getElementById("appHeader").offsetHeight;
+    document.documentElement.style.setProperty("--header-height", hh + "px");
+});
 
-/* ========== LOGOUT ========== */
+/* LOGOUT */
 document.getElementById("logoutBtn").onclick = () => {
     sessionStorage.clear();
     window.location = "index.html";
 };
 
-/* ========== LOAD GOOGLE FORM LINKS ========== */
+/* ELEMENTS */
+const panel = document.getElementById("googleFormPanel");
+const iframe = document.getElementById("googleFormFrame");
+const loader = document.getElementById("formLoader");
+const closeBtn = document.getElementById("closeFloatBtn");
+const evalSelect = document.getElementById("evalSemester");
+
+/* LOAD JSON */
 let googleForms = {};
 
 fetch("data/google_form_links.json")
     .then(r => r.json())
     .then(d => d.semesters.forEach(s => googleForms[s.id] = s.form_url));
 
-/* ========== ELEMENTS ========== */
-const modalEl = document.getElementById("googleFormModal");
-const iframe = document.getElementById("googleFormFrame");
-const loader = document.getElementById("formLoader");
-const closeBtn = document.getElementById("closeFloatBtn");
-const evalSelect = document.getElementById("evalSemester");
-
-/* ========== OPEN GOOGLE FORM ========== */
+/* SHOW GOOGLE FORM PANEL */
 function openForm(id) {
-    iframe.style.display = "none";
+    panel.style.display = "block";
     loader.style.display = "block";
     iframe.src = googleForms[id];
-
-    const modal = new bootstrap.Modal(modalEl);
-    modal.show();
-    modalEl._instance = modal;
-
-    closeBtn.style.display = "block";
-
     iframe.onload = () => {
         loader.style.display = "none";
         iframe.style.display = "block";
     };
+
+    closeBtn.style.display = "block";
 }
 
 evalSelect.onchange = () => {
     if (evalSelect.value) openForm(evalSelect.value);
 };
 
-/* ========== CLOSE GOOGLE FORM ========== */
+/* CLOSE FORM */
 function closeForm() {
-    try { modalEl._instance.hide(); } catch {}
-
+    panel.style.display = "none";
     iframe.src = "";
     iframe.style.display = "none";
     loader.style.display = "none";
@@ -66,14 +60,12 @@ function closeForm() {
 }
 
 closeBtn.onclick = closeForm;
-modalEl.addEventListener("hidden.bs.modal", closeForm);
 
-/* ========== IMAGE UPDATE DROPDOWNS ========== */
+/* IMAGE LOADERS */
 function updateImgMhs() {
     const p = document.getElementById("prodiMhs").value;
     const s = document.getElementById("semesterMhs").value;
     const img = document.getElementById("imgMhs");
-
     if (p && s) {
         img.src = `assets/img/cpl_per_mhs/${p}/${s}/grafik.png`;
         img.classList.remove("d-none");
@@ -87,7 +79,6 @@ function updateImgProdi() {
     const p = document.getElementById("prodiProdi").value;
     const a = document.getElementById("angkatanProdi").value;
     const img = document.getElementById("imgProdi");
-
     if (p && a) {
         img.src = `assets/img/cpl_prodi/${p}/${a}/grafik.png`;
         img.classList.remove("d-none");
