@@ -11,7 +11,7 @@ if (sessionStorage.getItem('loggedIn') !== 'true') {
 }
 
 /* =========================================================
-   LOGOUT BUTTON
+   LOGOUT
 ========================================================= */
 const logoutBtn = document.getElementById('logoutBtn');
 if (logoutBtn) {
@@ -22,7 +22,7 @@ if (logoutBtn) {
 }
 
 /* =========================================================
-   IMAGE FUNCTIONS
+   IMAGE HANDLER
 ========================================================= */
 function updateImgMhs() {
     const p = document.getElementById('prodiMhs').value;
@@ -54,48 +54,47 @@ function updateImgProdi() {
 
 document.getElementById('prodiMhs').addEventListener('change', updateImgMhs);
 document.getElementById('semesterMhs').addEventListener('change', updateImgMhs);
+
 document.getElementById('prodiProdi').addEventListener('change', updateImgProdi);
 document.getElementById('angkatanProdi').addEventListener('change', updateImgProdi);
 
 /* =========================================================
-   LOAD GOOGLE FORM DATA
+   LOAD GOOGLE FORM LINKS
 ========================================================= */
 async function loadGoogleForms() {
     try {
-        const response = await fetch('data/google_form_links.json');
-        const data = await response.json();
+        const r = await fetch('data/google_form_links.json');
+        const d = await r.json();
         window.googleForms = {};
 
-        (data.semesters || []).forEach(item => {
-            window.googleForms[item.id] = item.form_url;
+        (d.semesters || []).forEach(s => {
+            window.googleForms[s.id] = s.form_url;
         });
-    } catch (error) {
-        console.error("Error loading Google Form JSON:", error);
+    } catch (e) {
+        console.error("JSON Load Error:", e);
         window.googleForms = {};
     }
 }
-
 loadGoogleForms();
 
 /* =========================================================
-   MODAL + GOOGLE FORM HANDLING
+   MODAL CONTROL
 ========================================================= */
 const modalEl = document.getElementById('googleFormModal');
 const iframe = document.getElementById('googleFormFrame');
 const loader = document.getElementById('formLoader');
 const evalSelect = document.getElementById('evalSemester');
 
-async function openForm(selected) {
-    if (!selected || !window.googleForms[selected]) return;
+function openForm(id) {
+    if (!id || !window.googleForms[id]) return;
 
-    // Reset view
     iframe.style.display = 'none';
     loader.style.display = 'block';
-    iframe.src = window.googleForms[selected];
+    iframe.src = window.googleForms[id];
 
-    // Show modal
     const modalInstance = new bootstrap.Modal(modalEl, { backdrop: true });
     modalInstance.show();
+
     modalEl._bs_instance = modalInstance;
 
     iframe.onload = () => {
@@ -105,46 +104,38 @@ async function openForm(selected) {
 }
 
 evalSelect.addEventListener('change', function () {
-    const selected = this.value;
-    if (!selected) return;
-    openForm(selected);
+    const id = this.value;
+    if (!id) return;
+    openForm(id);
 });
 
 /* =========================================================
-   CLOSE FLOAT BUTTON (X)
+   FLOATING CLOSE BUTTON (X)
 ========================================================= */
 const closeFloatBtn = document.getElementById('closeFloatBtn');
 
 function closeFormModal() {
     try {
-        if (modalEl._bs_instance) {
-            modalEl._bs_instance.hide();
-        } else {
+        if (modalEl._bs_instance) modalEl._bs_instance.hide();
+        else {
             const instance = bootstrap.Modal.getInstance(modalEl);
             if (instance) instance.hide();
         }
     } catch (e) { }
 
-    // Reset dropdown
-    if (evalSelect) evalSelect.value = '';
-
-    // Clear iframe
+    evalSelect.value = '';
     iframe.src = '';
     iframe.style.display = 'none';
-
-    // Hide loader
     loader.style.display = 'none';
 }
 
-if (closeFloatBtn) {
-    closeFloatBtn.addEventListener('click', closeFormModal);
-}
+closeFloatBtn.addEventListener('click', closeFormModal);
 
 /* =========================================================
-   AUTO RESET IF MODAL CLOSED VIA BACKDROP / ESC
+   RESET WHEN CLOSED (ESC/BACKDROP)
 ========================================================= */
 modalEl.addEventListener('hidden.bs.modal', function () {
-    if (evalSelect) evalSelect.value = '';
+    evalSelect.value = '';
     iframe.src = '';
     iframe.style.display = 'none';
     loader.style.display = 'none';

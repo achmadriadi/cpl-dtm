@@ -56,7 +56,7 @@ body {
 }
 
 /* ===========================================
-   FOOTER (ALWAYS VISIBLE)
+   FOOTER
 =========================================== */
 .app-footer {
   position: fixed;
@@ -66,16 +66,16 @@ body {
   background: #222;
   color: #fff;
   text-align: center;
-  z-index: 1090; /* header tetap lebih tinggi */
+  z-index: 1090;
   border-top: 3px solid #f6db00;
 }
 
 /* ===========================================
-   MODAL BACKDROP (BLUR) 
+   MODAL BACKDROP
 =========================================== */
 .modal-backdrop.show {
   backdrop-filter: blur(6px);
-  z-index: 1040; /* footer tetap di atas backdrop */
+  z-index: 1040;
 }
 
 /* ===========================================
@@ -83,14 +83,14 @@ body {
 =========================================== */
 .modal-dialog.google-form-modal-fix {
   position: fixed;
-  top: 70px;               /* posisi tepat di bawah header */
+  top: 70px;
   left: 0;
   right: 0;
-  height: calc(100vh - 70px - 60px);  /* minus header & footer */
+  height: calc(100vh - 70px - 60px);
   margin: 0;
   max-width: 100%;
   padding: 0;
-  z-index: 1055; /* di atas backdrop, di bawah header */
+  z-index: 1055;
 }
 
 .modal-dialog.google-form-modal-fix .modal-content {
@@ -106,7 +106,7 @@ body {
 }
 
 /* ===========================================
-   LOADER (CENTERED)
+   LOADER
 =========================================== */
 .loader-container {
   position: absolute;
@@ -137,7 +137,7 @@ body {
 =========================================== */
 .close-float-btn {
   position: fixed;
-  top: 80px;       /* tepat di bawah header */
+  top: 80px;
   right: 20px;
   z-index: 2000;
   background: rgba(0,0,0,0.65);
@@ -162,14 +162,13 @@ body {
 }
 
 /* ===========================================
-   RESPONSIVE TWEAKS
+   RESPONSIVE
 =========================================== */
 @media (max-width: 576px) {
   .modal-dialog.google-form-modal-fix {
     top: 64px;
     height: calc(100vh - 64px - 60px);
   }
-
   .logo-box img {
     height: 48px;
   }
