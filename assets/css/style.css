@@ -1,15 +1,20 @@
-/* ===== GLOBAL ===== */
+/* =========================================
+   GLOBAL
+========================================= */
 body {
   background: linear-gradient(135deg, #fffbe6, #f6d900);
   background-attachment: fixed;
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
+  padding: 0;
 }
 
-/* ===== HEADER ===== */
+/* =========================================
+   HEADER
+========================================= */
 .glass-header {
   backdrop-filter: blur(10px);
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.85);
   position: fixed;
   top: 0;
   width: 100%;
@@ -18,7 +23,14 @@ body {
 }
 
 .logo-box img {
-  height: 60px;
+  width: 210px;
+  height: auto;
+}
+
+@media (max-width: 576px) {
+  .logo-box img {
+    width: 150px;
+  }
 }
 
 .app-title {
@@ -26,35 +38,44 @@ body {
   font-weight: 700;
 }
 
-/* ===== MODERN CARD ===== */
+/* =========================================
+   MODERN CARD
+========================================= */
 .modern-card {
-  background: #ffffffcc;
+  background: rgba(255,255,255,0.85);
   backdrop-filter: blur(12px);
   border-radius: 16px;
   padding: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
-/* ===== IMAGES ===== */
+.section-title {
+  font-weight: 700;
+  color: #333;
+}
+
+/* =========================================
+   IMAGE STYLING
+========================================= */
 .modern-image {
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  max-height: 350px;
+  object-fit: contain;
 }
 
-.image-box {
-  text-align: center;
-}
-
-/* ===== MODAL GOOGLE FORM ===== */
+/* =========================================
+   MODAL GOOGLE FORM
+========================================= */
 .google-form-modal-fix {
   position: fixed;
   top: 130px;
   left: 0;
   right: 0;
   height: calc(100vh - 130px - 60px);
-  max-width: 100%;
   margin: 0;
   padding: 0;
+  max-width: 100%;
 }
 
 #googleFormFrame {
@@ -66,19 +87,19 @@ body {
 
 .loader-container {
   position: absolute;
-  top: 45%;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
 }
 
 .loader {
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   border: 6px solid #eee;
   border-top: 6px solid #f6d900;
   border-radius: 50%;
-  animation: spin 0.9s linear infinite;
+  animation: spin .9s linear infinite;
 }
 
 @keyframes spin {
@@ -86,17 +107,20 @@ body {
 }
 
 .loading-text {
-  font-size: 16px;
-  margin-top: 12px;
+  font-size: 15px;
+  color: #333;
+  margin-top: 10px;
 }
 
-/* ===== FLOATING CLOSE BUTTON ===== */
+/* =========================================
+   FLOATING CLOSE BUTTON
+========================================= */
 .close-float-btn {
   position: fixed;
   top: 135px;
   right: 22px;
   z-index: 99999;
-  background: #000000aa;
+  background: rgba(0,0,0,0.75);
   color: white;
   border: none;
   border-radius: 50%;
@@ -106,13 +130,17 @@ body {
   line-height: 45px;
   text-align: center;
   cursor: pointer;
+  display: none;
 }
 
-/* ===== FOOTER ===== */
+/* =========================================
+   FOOTER
+========================================= */
 .app-footer {
   position: fixed;
   bottom: 0;
   width: 100%;
   background: #222;
   color: white;
+  z-index: 1050;
 }
