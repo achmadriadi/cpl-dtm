@@ -12,3 +12,20 @@ body {background: linear-gradient(135deg,#f6db00,#ffffff);min-height:100vh;font-
 .loader {border:6px solid #f3f3f3;border-top:6px solid #f6db00;border-radius:50%;width:55px;height:55px;animation:spin .9s linear infinite;margin:auto;}
 @keyframes spin {0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
 .modal.show {backdrop-filter: blur(6px);}
+
+/* Shift modal downward under header */
+.modal-dialog.google-form-modal-fix {
+    margin: 0;
+    height: calc(100vh - 70px); /* 70px = tinggi header */
+    padding-top: 70px;
+}
+
+.modal-dialog.google-form-modal-fix .modal-content {
+    height: 100%;
+    border: none;
+    border-radius: 0;
+}
+
+.modal-dialog.google-form-modal-fix iframe {
+    height: calc(100vh - 120px) !important; /* 70px header + 50px modal header */
+}
